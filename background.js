@@ -29,12 +29,36 @@ browser.contextMenus.onClicked.addListener(async (info, tab) => {
 });
 
 function extractPageData(selectedText) {
+  const currentUrl = window.location.href;
   const meta = {
-    title: document.title || "Без назви",
-    url: window.location.href,
-    accessDate: new Date().toLocaleDateString('uk-UA'),
+    title: document.title || "Untitled",
+    url: currentUrl,
+    accessDate: new Date().toLocaleDateString('en-US'),
     year: new Date().getFullYear().toString()
   };
+
+  const isPdf = currentUrl.toLowerCase().endsWith('.pdf') || 
+                document.contentType === 'application/pdf' ||
+                document.getElementById('viewerContainer') !== null;
+                
+if (isPdf) {
+    let cleanTitle = meta.title.replace(/\.[^/.]+$/, ""); 
+    cleanTitle = cleanTitle.replace(/_+/g, " ");
+
+    return {
+      text: selectedText,
+      type: "article", // Mark as article to display the appropriate badge
+      source: {
+        ...meta,
+        title: cleanTitle,
+        journal: "PDF Document Materials", // Default source description for PDFs
+        authors: "Document Authors", 
+        volume: "",
+        issue: "",
+        pages: ""
+      }
+    };
+  }
 
   const isArticle = document.querySelector('meta[name="citation_journal_title"]') || 
                     document.querySelector('meta[name="citation_doi"]');
@@ -47,8 +71,8 @@ function extractPageData(selectedText) {
       type: "article",
       source: {
         ...meta,
-        journal: document.querySelector('meta[name="citation_journal_title"]')?.content || "Науковий журнал",
-        authors: authorsArray.length ? authorsArray.join(", ") : "Автори не вказані",
+        journal: document.querySelector('meta[name="citation_journal_title"]')?.content || "Scientific journal",
+        authors: authorsArray.length ? authorsArray.join(", ") : "Authors not listed",
         volume: document.querySelector('meta[name="citation_volume"]')?.content || "",
         issue: document.querySelector('meta[name="citation_issue"]')?.content || "",
         pages: document.querySelector('meta[name="citation_firstpage"]')?.content 
@@ -67,7 +91,7 @@ function extractPageData(selectedText) {
       source: {
         ...meta,
         authors: document.querySelector('meta[property="book:author"]')?.content || 
-                 document.querySelector('meta[name="author"]')?.content || "Автор не вказаний",
+                 document.querySelector('meta[name="author"]')?.content || "Authors not listed",
         publisher: document.querySelector('meta[property="book:publisher"]')?.content || ""
       }
     };
