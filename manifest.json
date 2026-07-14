@@ -15,5 +15,9 @@
   "sidebar_action": {
     "default_panel": "sidebar.html",
     "default_title": "Research Helper Workspace"
+  },
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": false
   }
 }

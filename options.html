@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="eng">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            padding: 20px;
+            background: #f9f9fb;
+            color: #222;
+            max-width: 400px;
+        }
+        h2 {
+            font-size: 18px;
+            margin-top: 0;
+            color: #4a4a4a;
+            border-bottom: 1px solid #e1e1e6;
+            padding-bottom: 8px;
+        }
+        .option-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #e1e1e6;
+            border-radius: 4px;
+            background: white;
+            font-size: 14px;
+        }
+        .status {
+            margin-top: 10px;
+            font-size: 12px;
+            color: #34c759;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h2>Research Helper Settings</h2>
+
+    <div class="option-group">
+        <label for="citation-style">Default Citation Style:</label>
+        <select id="citation-style">
+            <option value="DSTU">DSTU 8302:2015 (UA)</option>
+            <option value="APA">APA 7th Edition (US)</option>
+            <option value="Markdown">Simple Markdown</option>
+        </select>
+    </div>
+
+    <div id="status" class="status">Settings saved successfully!</div>
+    <script src="options.js"></script>
+</body>
+</html>
